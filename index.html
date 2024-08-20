@@ -1,1 +1,100 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ground Transportation from A to Z</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background-slide {
+            animation: slide 12s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #4a0072 50%, #880e4f 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: 0.5;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -1;
+        }
+
+        .background-slide-secondary {
+            animation-direction: alternate-reverse;
+            animation-duration: 16s;
+        }
+
+        .background-slide-tertiary {
+            animation-duration: 20s;
+        }
+
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 0.25em;
+            box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+            box-sizing: border-box;
+            left: 50%;
+            padding: 10vmin;
+            position: fixed;
+            text-align: center;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        h2 {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.5em;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin: 1em 0;
+            font-size: 1.2em;
+        }
+
+        .coming-soon {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        a {
+            color: #009688;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+            100% {
+                transform: translateX(25%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-slide"></div>
+<div class="background-slide background-slide-secondary"></div>
+<div class="background-slide background-slide-tertiary"></div>
+
+<div class="content-wrapper">
+    <h2>AZEUM</h2>
+	<p>Ground Transportation from A to Z</p>
+    <p class="coming-soon">Coming Soon...</p>
+    <p><a href="mailto:eugene@azeum.com">eugene@azeum.com</a></p>
+</div>
+
+</body>
+</html>
