@@ -1,100 +1,334 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ground Transportation from A to Z</title>
-    <link rel="icon" type="image/png" href="icon.png">
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#141414">
+  <title>AZEUM — Coming Q1 2026</title>
 
-        .background-slide {
-            animation: slide 12s ease-in-out infinite alternate;
-            background-image: linear-gradient(-60deg, #4a0072 50%, #880e4f 50%);
-            bottom: 0;
-            left: -50%;
-            opacity: 0.5;
-            position: fixed;
-            right: -50%;
-            top: 0;
-            z-index: -1;
-        }
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="preload" href="RethinkSans.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="soon.png" as="image" fetchpriority="high">
 
-        .background-slide-secondary {
-            animation-direction: alternate-reverse;
-            animation-duration: 16s;
-        }
+  <style>
+    @font-face {
+      font-family: "RethinkSans";
+      src: url("RethinkSans.ttf") format("truetype");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
 
-        .background-slide-tertiary {
-            animation-duration: 20s;
-        }
+    :root {
+      --az-color-bg: #141414;
+      --az-color-fg: #a0a0a0;
+      --az-color-fg-contrast: #ffffff;
+      --az-color-theme-border: #262626;
+      --az-color-theme-primary: #000cff;
 
-        .content-wrapper {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 0.25em;
-            box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
-            box-sizing: border-box;
-            left: 50%;
-            padding: 10vmin;
-            position: fixed;
-            text-align: center;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
+      --shadow-1: 0 40px 120px rgba(0, 0, 0, 0.65);
+      --shadow-2: 0 18px 60px rgba(0, 0, 0, 0.55);
+      --max-width: 1220px;
+    }
 
-        h2 {
-            font-family: 'Arial Black', sans-serif;
-            font-size: 1.5em;
-            margin: 0;
-            text-transform: uppercase;
-        }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-        p {
-            margin: 1em 0;
-            font-size: 1.2em;
-        }
+    html,
+    body {
+      height: 100%;
+    }
 
-        .coming-soon {
-            font-weight: bold;
-            font-size: 1.5em;
-        }
+    body {
+      margin: 0;
+      font-family: "RethinkSans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--az-color-bg);
+      color: var(--az-color-fg);
+      overflow-x: hidden;
+    }
 
-        a {
-            color: #009688;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: var(--az-color-bg);
+    }
 
-        @keyframes slide {
-            0% {
-                transform: translateX(-25%);
-            }
-            100% {
-                transform: translateX(25%);
-            }
-        }
-    </style>
+    .bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 64% 40%;
+      filter: saturate(1.04) contrast(1.02);
+      transform: scale(1.02);
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(1100px 720px at 12% 12%, rgba(0, 12, 255, 0.22), transparent 60%),
+        radial-gradient(900px 640px at 88% 86%, rgba(0, 12, 255, 0.12), transparent 62%),
+        linear-gradient(90deg,
+          rgba(20, 20, 20, 0.95) 0%,
+          rgba(20, 20, 20, 0.86) 36%,
+          rgba(20, 20, 20, 0.55) 58%,
+          rgba(20, 20, 20, 0.22) 74%,
+          rgba(20, 20, 20, 0.06) 100%);
+    }
+
+    @media (max-width: 760px) {
+      .bg-img {
+        object-position: 62% 40%;
+      }
+
+      .bg-overlay {
+        background:
+          radial-gradient(1000px 780px at 20% 12%, rgba(0, 12, 255, 0.20), transparent 62%),
+          linear-gradient(180deg,
+            rgba(20, 20, 20, 0.35) 0%,
+            rgba(20, 20, 20, 0.76) 44%,
+            rgba(20, 20, 20, 0.98) 92%);
+      }
+    }
+
+    .bg-grain {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.10;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+      mix-blend-mode: overlay;
+    }
+
+    main.shell {
+      min-height: 100svh;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: clamp(22px, 4.2vw, 64px);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: clamp(18px, 3.4vw, 42px);
+    }
+
+    header.brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      user-select: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      color: var(--az-color-theme-primary);
+      filter: drop-shadow(0 18px 40px rgba(0, 12, 255, 0.18));
+      flex: 0 0 auto;
+    }
+
+    .brand-text {
+      height: 18px;
+      width: auto;
+      color: var(--az-color-fg-contrast);
+      opacity: 0.92;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 580px;
+      position: relative;
+      border-radius: 26px;
+      padding: clamp(22px, 3.2vw, 44px);
+      background: rgba(26, 26, 26, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: var(--shadow-1);
+      -webkit-backdrop-filter: blur(34px) saturate(1.15);
+      backdrop-filter: blur(34px) saturate(1.15);
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        140deg,
+        rgba(0, 12, 255, 0.70),
+        rgba(255, 255, 255, 0.10),
+        rgba(0, 12, 255, 0.26)
+      );
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.62;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .panel::before {
+        background-size: 220% 220%;
+        animation: borderShift 10s ease-in-out infinite alternate;
+      }
+
+      @keyframes borderShift {
+        from { background-position: 0% 20%; }
+        to { background-position: 100% 80%; }
+      }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 4.2vw, 52px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--az-color-fg-contrast);
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .when {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(20, 20, 20, 0.46);
+      box-shadow: var(--shadow-2);
+      color: rgba(255, 255, 255, 0.82);
+      width: fit-content;
+    }
+
+    .when::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0, 12, 255, 0.95);
+      box-shadow: 0 0 0 4px rgba(0, 12, 255, 0.16);
+    }
+
+    .copy {
+      margin-top: 18px;
+      max-width: 44ch;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    a.email {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 12, 255, 0.38);
+      background: rgba(0, 12, 255, 0.14);
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      font-weight: 560;
+      letter-spacing: 0.01em;
+      width: fit-content;
+      transition: transform 0.12s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    a.email::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      opacity: 0.9;
+    }
+
+    a.email:hover {
+      background: rgba(0, 12, 255, 0.20);
+      border-color: rgba(0, 12, 255, 0.55);
+      transform: translateY(-1px);
+    }
+
+    a.email:active {
+      transform: translateY(0);
+    }
+
+    a.email:focus-visible {
+      outline: 3px solid rgba(0, 12, 255, 0.55);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 520px) {
+      a.email {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .when {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="bg" aria-hidden="true">
+    <img class="bg-img" src="soon.png" alt="" decoding="async" fetchpriority="high">
+    <div class="bg-overlay"></div>
+    <div class="bg-grain"></div>
+  </div>
 
-<div class="background-slide"></div>
-<div class="background-slide background-slide-secondary"></div>
-<div class="background-slide background-slide-tertiary"></div>
+  <main class="shell">
+    <header class="brand" aria-label="AZEUM">
+      <span class="sr-only">AZEUM</span>
+      <svg class="brand-mark" viewBox="0 0 469.377 333.875" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M404.943 198.875H86.1598V170.875H469.377L343.377 305.875H455.16V333.875H278.943L404.943 198.875Z" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M167.16 0.569824L333.812 333.875H0.507446L167.16 0.569824ZM45.8124 305.875H288.507L167.16 63.1797L45.8124 305.875Z" fill="currentColor"/>
+      </svg>
+      <svg class="brand-text" viewBox="0 0 128 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path d="M111.699 19.6343H107.303V0.402344H111.726L117.661 8.50724L123.265 0.402344H127.414V19.6343H123.018V7.3808L117.661 14.8813H117.029L111.699 7.46322V19.6343Z" fill="currentColor"/>
+        <path d="M90.5738 0.402344H94.9697V11.6943C94.9697 14.46 94.2187 16.5297 92.7168 17.9034C91.2332 19.2771 89.365 19.964 87.1121 19.964C84.5478 19.964 82.5147 19.2405 81.0128 17.7935C79.4925 16.3282 78.7324 14.231 78.7324 11.5019V0.402344H83.1283V10.5678C83.1283 14.0845 84.4562 15.8429 87.1121 15.8429C88.3392 15.8429 89.2184 15.4307 89.7496 14.6065C90.2991 13.7823 90.5738 12.5185 90.5738 10.8151V0.402344Z" fill="currentColor"/>
+        <path d="M67.2166 19.6343H55.54V0.402344H66.9418V4.52348H59.9359V7.90281H66.1176V12.0239H59.9359V15.5132H67.2166V19.6343Z" fill="currentColor"/>
+        <path d="M38.1399 4.52348H29.1833V0.402344H44.0194V3.47946L34.4858 15.5132H44.2941V19.6343H28.6338V16.5572L38.1399 4.52348Z" fill="currentColor"/>
+        <path d="M4.86866 19.6343H0.445312L8.44031 0.402344H12.3691L20.3641 19.6343H15.666L14.0725 15.5956H6.46217L4.86866 19.6343ZM12.4241 11.4745L10.2811 6.03456L8.11062 11.4745H12.4241Z" fill="currentColor"/>
+      </svg>
+    </header>
 
-<div class="content-wrapper">
-    <h2>AZEUM</h2>
-	<p>Ground Transportation from A to Z</p>
-    <p class="coming-soon">Coming Soon...</p>
-    <p><a href="mailto:eugene@azeum.com">eugene@azeum.com</a></p>
-</div>
-
+    <div class="content">
+      <section class="panel" aria-label="Coming soon">
+        <h1>Coming soon</h1>
+        <p class="when">Launching Q1 2026</p>
+        <p class="copy">For partnerships and inquiries, email:</p>
+        <a class="email" href="mailto:eugene@azeum.com">eugene@azeum.com</a>
+      </section>
+    </div>
+  </main>
 </body>
 </html>
